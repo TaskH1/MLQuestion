@@ -13,6 +13,6 @@ class Question(models.Model):
         
     def __str__(self):
         """Return a string representation of the model."""
-        return self.text
+        return self.question_text
 
     
