@@ -15,6 +15,7 @@ class QuestionInline(admin.TabularInline):
     inlines = [AnswerInline]
 
 # equivalent to admin.site.register(Chapter, ChapterAdmin)
+# decorator
 @admin.register(Chapter)
 class ChapterAdmin(admin.ModelAdmin):
     inlines = [QuestionInline]
