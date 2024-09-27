@@ -11,7 +11,7 @@ class Chapter(models.Model):
 
 class Question(models.Model):
     chapter = models.ForeignKey(Chapter, null=True, on_delete=models.CASCADE, related_name='questions')
-    question_text = models.CharField(max_length=300)
+    question_text = models.TextField(max_length=300)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -22,7 +22,7 @@ class Question(models.Model):
 
 class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    answer_text = models.CharField(max_length=500)
+    answer_text = models.TextField(max_length=500)
     is_correct = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
