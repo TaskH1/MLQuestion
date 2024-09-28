@@ -1,0 +1,14 @@
+{% extends 'ml_question/base.html' %}
+
+{% block content %}
+    <ul>{{question.question_text}}</ul>
+
+    <ul>
+        {% if question.answer %}
+            <li>{{answer.answer_text}}</li>
+        {% else %}
+            <p>No answers has been added</p>
+        {% endif %}
+    </ul>
+
+{% endblock content %}

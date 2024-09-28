@@ -23,7 +23,7 @@ class Question(models.Model):
         return self.question_text
 
 class Answer(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    question = models.OneToOneField(Question, on_delete=models.CASCADE, related_name='answer')
     answer_text = models.TextField(max_length=500)
     is_correct = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)

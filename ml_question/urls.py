@@ -13,4 +13,6 @@ urlpatterns = [
     path('chapters/', views.chapters, name='chapters' ),
     # Individual chapter page
     path('chapters/<int:chapter_id>', views.chapter, name='chapter'),
+    # Individual quesition page
+    path('chapters/<int:chapter_id>/<int:question_id>', views.question, name='question'),
 ]

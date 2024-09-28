@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Chapter
+from .models import Chapter, Question, Answer
 
 # Create your views here.
 def index(request):
@@ -18,3 +18,11 @@ def chapter(request, chapter_id):
     questions = chapter.questions.order_by('created_at')
     context = {'chapter': chapter, 'questions': questions}
     return render(request, 'ml_question/chapter.html', context)
+
+def question(request, chapter_id, question_id):
+    # Show a single question
+    chapter = Chapter.objects.get(id=chapter_id)
+    question = Question.objects.get(id=question_id)
+    answer = Answer.objects.get(question_id=question_id)
+    context = {'chapter': chapter, 'question': question, 'answer': answer}
+    return render(request, 'ml_question/question.html', context)
