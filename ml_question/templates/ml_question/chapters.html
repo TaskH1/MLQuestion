@@ -1,0 +1,14 @@
+{% extends 'ml_question/base.html' %}
+
+{% block content %}
+    <p>Chapters</p>
+        <!--unordered list-->
+        <ul>
+            {% for chapter in chapters %}
+                <!--list item-->
+                <li>{{chapter.number}}.{{chapter.title}}</li>
+            {% empty %}
+                <li>No chapters have been added yet</li>
+            {% endfor %}
+        </ul>
+{% endblock content %}

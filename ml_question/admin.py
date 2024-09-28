@@ -19,6 +19,8 @@ class QuestionInline(admin.TabularInline):
 @admin.register(Chapter)
 class ChapterAdmin(admin.ModelAdmin):
     inlines = [QuestionInline]
+    ordering = ['number']
+
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
