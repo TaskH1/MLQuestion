@@ -11,4 +11,6 @@ urlpatterns = [
     path('', views.index, name='index'),
     # Chapter page where all chapters is showed
     path('chapters/', views.chapters, name='chapters' ),
+    # Individual chapter page
+    path('chapters/<int:chapter_id>', views.chapter, name='chapter'),
 ]

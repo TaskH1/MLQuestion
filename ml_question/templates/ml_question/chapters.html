@@ -6,7 +6,9 @@
         <ul>
             {% for chapter in chapters %}
                 <!--list item-->
-                <li>{{chapter.number}}.{{chapter.title}}</li>
+                <li>
+                    <a href="{% url 'ml_question:chapter' chapter.id %}">{{chapter.number}}.{{chapter.title}}</a>
+                </li>
             {% empty %}
                 <li>No chapters have been added yet</li>
             {% endfor %}

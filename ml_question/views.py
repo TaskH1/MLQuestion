@@ -12,4 +12,9 @@ def chapters(request):
     context = {'chapters': chapters}
     return render(request, 'ml_question/chapters.html', context)
 
-    
+def chapter(request, chapter_id):
+    # Show a single chapter
+    chapter = Chapter.objects.get(id=chapter_id)
+    questions = chapter.questions.order_by('created_at')
+    context = {'chapter': chapter, 'questions': questions}
+    return render(request, 'ml_question/chapter.html', context)

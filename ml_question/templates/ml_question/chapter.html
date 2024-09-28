@@ -1,0 +1,10 @@
+{% extends 'ml_question/base.html' %}
+
+{% block content %}
+    <p>Chapter.{{chapter.number}}  {{chapter.title}}</p>
+        {% for question in questions %}
+            <li>{{question.question_text}}</li>
+        {% empty %}
+            <li>No question has been added yet</li>
+        {% endfor %}
+{% endblock content %}
