@@ -1,15 +1,15 @@
 {% extends 'ml_question/base.html' %}
 
 {% block content %}
-    <p>{{ chapter.title }}</p>
-    <p>Add a new question</p>
+    <p>Edit Question:</p>
 
-    <form action="{% url 'ml_question:new_question' chapter_id %}" method="post">
+    <form action="{% url 'ml_question:edit_question' question_id %}" method="post">
          <!--prevent attacks,corss-site request forgery, from using the form-->
         {% csrf_token %}
         {{ question_form.as_div }}
         {{ answer_form.as_div }}
-        <button name="submit">Add Question</button>
+        <button name="submit">Save changes</button>
     </form>
+
 
 {% endblock content %}

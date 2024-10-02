@@ -1,0 +1,11 @@
+{% extends 'ml_question/base.html' %}
+
+{% block content %}
+    <p>Edit Chapter</p>
+    <form action="{% url 'ml_question:edit_chapter' chapter.id %}" method='post'>
+        {% csrf_token %}
+        {{ form.as_div }}
+        <button name="submit">Save changes</button>
+    </form>
+
+{% endblock content%}

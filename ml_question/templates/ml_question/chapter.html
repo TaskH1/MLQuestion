@@ -1,10 +1,22 @@
 {% extends 'ml_question/base.html' %}
 
 {% block content %}
-    <p>Chapter.{{chapter.number}}  {{chapter.title}}</p>
+    <p style="display: flex; justify-content: start; align-items: center;">
+        <span>Chapter.{{chapter.number}}  {{chapter.title}}</span>
+        <a href="{% url 'ml_question:edit_chapter' chapter.id %}"
+        style="margin-left: auto; margin-right: 50%;">
+            Edit
+        </a>
+    </p>
         {% for question in questions %}
-            <li>{{question.question_text}}</li>
+            <a href="{% url 'ml_question:question' chapter.id question.id%}">
+                <li>{{question.question_text}}</li>
+            </a>
         {% empty %}
             <li>No question has been added yet</li>
         {% endfor %}
+
+    <p>
+        <a href="{% url 'ml_question:new_question' chapter.id %}">Add a new question</a>
+    </p>
 {% endblock content %}
