@@ -1,7 +1,7 @@
 {% extends 'ml_question/base.html' %}
 
 {% block content %}
-    <p>Edit Question:</p>
+    <h2>Edit Question:</h2>
 
     <form action="{% url 'ml_question:edit_question' question_id %}" method="post">
          <!--prevent attacks,corss-site request forgery, from using the form-->

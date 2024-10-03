@@ -20,6 +20,8 @@ urlpatterns = [
     path('new_chapter/', views.new_chapter, name='new_chapter'),
     # Page for editing chapter
     path('edit_chapter/<int:chapter_id>', views.edit_chapter, name='edit_chapter'),
+    # Delete a chapter
+    path('delete_chapter/<int:chapter_id>', views.delete_chapter, name='delete_chapter'),
     
     # Question
     # Individual quesition page
@@ -28,4 +30,6 @@ urlpatterns = [
     path('chapters/<int:chapter_id>/new_question', views.new_question, name='new_question'),
     # Page for editing a question and an answer
     path('edit_question/<int:question_id>', views.edit_question, name='edit_question'),
+    # Deleter a quesiton and an answer
+    path('delete_question/<int:question_id>', views.delete_question, name='delete_question'),
 ]

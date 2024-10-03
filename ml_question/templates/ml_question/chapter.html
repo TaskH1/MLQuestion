@@ -7,6 +7,10 @@
         style="margin-left: auto; margin-right: 50%;">
             Edit
         </a>
+        <a href="{% url 'ml_question:delete_chapter' chapter.id %}"
+        style="margin-left: auto; margin-right: 50%">
+            Delete
+        </a>
     </p>
         {% for question in questions %}
             <a href="{% url 'ml_question:question' chapter.id question.id%}">

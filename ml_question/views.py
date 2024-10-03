@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 
@@ -20,7 +20,7 @@ def chapters(request):
 
 def chapter(request, chapter_id):
     """Show a single chapter and its questions"""
-    chapter = Chapter.objects.get(id=chapter_id)
+    chapter = get_object_or_404(Chapter, id=chapter_id)
     questions = chapter.questions.order_by('created_at')
     context = {'chapter': chapter, 'questions': questions}
     return render(request, 'ml_question/chapter.html', context)
@@ -41,7 +41,7 @@ def new_chapter(request):
 
 def edit_chapter(request, chapter_id):
     """Edit an existing chpater"""
-    chapter = Chapter.objects.get(id=chapter_id)
+    chapter = get_object_or_404(Chapter, id=chapter_id)
 
     if request.method != 'POST':
         # Initial request; pre-fill form with the current chpater.
@@ -56,18 +56,31 @@ def edit_chapter(request, chapter_id):
     context = {'chapter': chapter, 'form': form}
     return render(request, 'ml_question/edit_chapter.html', context)
 
+#@csrf_exempt
+def delete_chapter(request, chapter_id):
+    """Delete an existing chapter"""
+    chapter = get_object_or_404(Chapter, id=chapter_id)
+
+    if request.method == 'POST':
+        chapter.delete()
+        return redirect('ml_question:chapters')
+    
+    context = {'chapter': chapter}
+    return render(request, 'ml_question/delete_chapter.html', context)
+        
+
 # Question
 def question(request, chapter_id, question_id):
     """Show a single question"""
-    chapter = Chapter.objects.get(id=chapter_id)
-    question = Question.objects.get(id=question_id)
-    answer = Answer.objects.get(question_id=question_id)
+    chapter = get_object_or_404(Chapter, id=chapter_id)
+    question = get_object_or_404(Question, id=question_id)
+    answer = get_object_or_404(Answer, question_id=question_id)
     context = {'chapter': chapter, 'question': question, 'answer': answer}
     return render(request, 'ml_question/question.html', context)
 
 def new_question(request, chapter_id):
     """Create a new question and its answer"""
-    chapter = Chapter.objects.get(id=chapter_id)
+    chapter = get_object_or_404(Chapter, id=chapter_id)
     if request.method != 'POST':
         question_form = QuestionForm()
         answer_form = AnswerForm()
@@ -91,7 +104,7 @@ def new_question(request, chapter_id):
 
 def edit_question(request, question_id):
     """Edit a exsiting question and an answer"""
-    question = Question.objects.get(id=question_id)
+    question = get_object_or_404(Question, id=question_id)
     answer = Answer.objects.get(question_id=question_id)
 
     if request.method != 'POST':
@@ -113,7 +126,16 @@ def edit_question(request, question_id):
                'question_id': question_id}
     return render(request, 'ml_question/edit_question.html', context)
 
+@csrf_exempt
+def delete_question(request, question_id):
+    question = get_object_or_404(Question, id=question_id)
+    answer = get_object_or_404(Answer, question_id=question_id)
 
+    if request.method == 'POST':
+        question.delete()
+        return redirect('ml_question:chapter', chapter_id=question.chapter_id)
 
+    context = {'question': question,
+                'answer': answer}
+    return render(request, 'ml_question/delete_question.html', context)
 
-    

@@ -1,0 +1,16 @@
+{% extends 'ml_question/base.html' %}
+
+{% block content %}
+    <h2>Delete Question</h2>
+    
+    <form action="{% url 'ml_question:delete_question' question.id %}" method='post'>
+        <p>Do you want to delete the Question and the Answer?</br>
+            {% csrf_token %}
+            {{ question }}
+            {{ answer }}
+        </p>
+        <button type="submit">Yes, Delete</button>
+    </form>
+    <a href="{% url 'ml_question:question' question.chapter_id question.id %}">No</a>
+
+{% endblock content %}
