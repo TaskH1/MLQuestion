@@ -99,7 +99,7 @@ def new_question(request, chapter_id):
     
     context = {'question_form': question_form,
                 'answer_form': answer_form,
-                'chapter_id': chapter_id}
+                'chapter': chapter}
     return render(request, 'ml_question/new_question.html', context)
 
 def edit_question(request, question_id):

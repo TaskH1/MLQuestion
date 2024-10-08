@@ -1,10 +1,10 @@
-{% extends 'ml_question/base.html' %}
+{% extends 'ml_question/base2.html' %}
 
 {% block content %}
     <p>{{ chapter.title }}</p>
     <p>Add a new question</p>
 
-    <form action="{% url 'ml_question:new_question' chapter_id %}" method="post">
+    <form action="{% url 'ml_question:new_question' chapter.id %}" method="post">
          <!--prevent attacks,corss-site request forgery, from using the form-->
         {% csrf_token %}
         {{ question_form.as_div }}

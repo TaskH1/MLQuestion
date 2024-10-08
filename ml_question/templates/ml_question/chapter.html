@@ -1,24 +1,29 @@
 {% extends 'ml_question/base.html' %}
 
 {% block content %}
-    <p style="display: flex; justify-content: start; align-items: center;">
-        <span>Chapter.{{chapter.number}}  {{chapter.title}}</span>
-        <a href="{% url 'ml_question:edit_chapter' chapter.id %}"
-        style="margin-left: auto; margin-right: 50%;">
-            Edit
-        </a>
-        <a href="{% url 'ml_question:delete_chapter' chapter.id %}"
-        style="margin-left: auto; margin-right: 50%">
-            Delete
-        </a>
-    </p>
+    <div style="display: flex; align-items: center;">
+        <div style="flex: 2;">
+            <h2 style="display: inline-block; margin: 0;">Chapter. {{chapter.number}}  {{chapter.title}}</h2>
+        </div>
+        <div style="display: flex; flex: 1; margin-left: 0;">
+            <a href="{% url 'ml_question:edit_chapter' chapter.id %}"  style="margin-right: 10px;">
+                Edit
+            </a>
+            <a href="{% url 'ml_question:delete_chapter' chapter.id %}">
+                Delete
+            </a>
+        </div>
+    </div>
+
+    <ol>
         {% for question in questions %}
             <a href="{% url 'ml_question:question' chapter.id question.id%}">
                 <li>{{question.question_text}}</li>
             </a>
         {% empty %}
-            <li>No question has been added yet</li>
+            <p>No question has been added yet</p>
         {% endfor %}
+    </ol>
 
     <p>
         <a href="{% url 'ml_question:new_question' chapter.id %}">Add a new question</a>

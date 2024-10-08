@@ -1,0 +1,10 @@
+<!--Contains elements common to all pages-->
+<p>
+    <!--template tag-->
+    <a href="{% url 'ml_question:index' %}">ML Question</a> -
+    <a href="{% url 'ml_question:chapters' %}">Chapters</a> -
+    <a href="{% url 'ml_question:chapter' chapter.id %}">Question</a>
+</p>
+
+<!--block tags-->
+{% block content %}{% endblock content %}

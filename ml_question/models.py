@@ -13,7 +13,7 @@ class Chapter(models.Model):
         return f"{self.number}. {self.title}"
 
 class Question(models.Model):
-    chapter = models.ForeignKey(Chapter, null=True, on_delete=models.CASCADE, related_name='questions')
+    chapter = models.ForeignKey(Chapter, null=False, on_delete=models.CASCADE, related_name='questions')
     question_text = models.TextField(max_length=300)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -24,7 +24,7 @@ class Question(models.Model):
 
 class Answer(models.Model):
     question = models.OneToOneField(Question, on_delete=models.CASCADE, related_name='answer')
-    answer_text = models.TextField(max_length=500)
+    answer_text = models.TextField(max_length=1000)
     is_correct = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 

@@ -1,15 +1,16 @@
-{% extends 'ml_question/base.html' %}
+{% extends 'ml_question/base2.html' %}
 
 {% block content %}
-    <ul>{{question.question_text}}</ul>
+    <h3>{{question.question_text}}</h3>
 
     <ul>
         {% if question.answer %}
-            <li>{{answer.answer_text}}</li>
+            <p>{{answer.answer_text|linebreaksbr}}</p>
         {% else %}
             <p>No answers has been added</p>
         {% endif %}
     </ul>
 
     <a href="{% url 'ml_question:edit_question' question.id %}">Edit</a>
+    <a href="{% url 'ml_question:delete_question' question.id %}">Delete</a>
 {% endblock content %}
