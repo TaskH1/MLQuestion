@@ -3,6 +3,17 @@
 {% block content %}
     <h3>{{question.question_text}}</h3>
 
+    <form action="{% url 'ml_question:submit_answer' chapter.id question.id %}"
+            method="POST">
+        {% csrf_token %}
+        <label for="user_answer">Your Answer:</label>
+        <textarea name="user_answer" id="user_answer" rows="8" cols="50" required></textarea>
+        <br>
+        <button type="submit">Submit Answer</button>
+    </form>
+
+
+
     <ul>
         {% if question.answer %}
             <p>{{answer.answer_text|linebreaksbr}}</p>

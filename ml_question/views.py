@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
+from django.http import HttpResponse
 
 from .models import Chapter, Question, Answer
 from .forms import ChapterForm, QuestionForm, AnswerForm
+from accounts.models import UserAnswer
 
 # Create your views here.
 
@@ -139,3 +140,22 @@ def delete_question(request, question_id):
                 'answer': answer}
     return render(request, 'ml_question/delete_question.html', context)
 
+
+def submit_answer(request, chapter_id, question_id):
+    if request.method == 'POST':
+        user_answer = request.POST.get('user_answer')
+
+        # Get the related chapter and question
+        chapter = get_object_or_404(Chapter, id=chapter_id)
+        question = get_object_or_404(Chapter, id=question_id)
+
+        # Save the user's answer to the database
+        user_answer_obj = UserAnswer.objects.create(
+            chapter=chapter,
+            question=question,
+            answer_text=user_answer
+        )
+
+        return redirect('ml_question:question', chapter_id=chapter_id)
+    
+    return HttpReponse("Invalid request method.", status=405)

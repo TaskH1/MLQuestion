@@ -32,4 +32,7 @@ urlpatterns = [
     path('edit_question/<int:question_id>', views.edit_question, name='edit_question'),
     # Deleter a quesiton and an answer
     path('delete_question/<int:question_id>', views.delete_question, name='delete_question'),
+
+    # Submit Answer
+    path('chapters/<int:chapter_id>/<int:question_id>', views.submit_answer, name='submit_answer'),
 ]
