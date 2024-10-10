@@ -3,8 +3,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 
 from .models import Chapter, Question, Answer
-from .forms import ChapterForm, QuestionForm, AnswerForm
+from .forms import ChapterForm, QuestionForm, AnswerForm, UserAnswerForm
 from accounts.models import UserAnswer
+from accounts.utils import evaluate_answer_with_llm
 
 # Create your views here.
 
@@ -76,7 +77,8 @@ def question(request, chapter_id, question_id):
     chapter = get_object_or_404(Chapter, id=chapter_id)
     question = get_object_or_404(Question, id=question_id)
     answer = get_object_or_404(Answer, question_id=question_id)
-    context = {'chapter': chapter, 'question': question, 'answer': answer}
+    user_answer_form = UserAnswerForm()
+    context = {'chapter': chapter, 'question': question, 'answer': answer, 'user_answer_form': user_answer_form}
     return render(request, 'ml_question/question.html', context)
 
 def new_question(request, chapter_id):
@@ -143,19 +145,39 @@ def delete_question(request, question_id):
 
 def submit_answer(request, chapter_id, question_id):
     if request.method == 'POST':
+        print("POST request received.")
         user_answer = request.POST.get('user_answer')
 
         # Get the related chapter and question
         chapter = get_object_or_404(Chapter, id=chapter_id)
-        question = get_object_or_404(Chapter, id=question_id)
+        question = get_object_or_404(Question, id=question_id)
+
+        # Evaluate the user's answer using the LLM
+        correct_answer = question.answer
+        is_correct, feedback = evaluate_answer_with_llm(user_answer, correct_answer.answer_text)
 
         # Save the user's answer to the database
         user_answer_obj = UserAnswer.objects.create(
-            chapter=chapter,
+            user=request.user,
             question=question,
-            answer_text=user_answer
+            submitted_answer=user_answer,
+            is_correct=is_correct,
+            feedback=feedback
         )
+        
+        return redirect('ml_question:feedback', user_answer_id=user_answer_obj.id)
+    return HttpResponse("Invalid request method.", status=405)
 
-        return redirect('ml_question:question', chapter_id=chapter_id)
-    
-    return HttpReponse("Invalid request method.", status=405)
+def show_feedback(request, user_answer_id):
+    user_answer = get_object_or_404(UserAnswer, id=user_answer_id)
+    question = user_answer.question
+    correct_answer = question.answer
+
+    context = {
+        'user_answer': user_answer,
+        'question': question,
+        'correct_answer': correct_answer,
+    }
+
+    return render(request, 'ml_question/feedback.html', context)
+

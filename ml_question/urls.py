@@ -25,14 +25,16 @@ urlpatterns = [
     
     # Question
     # Individual quesition page
-    path('chapters/<int:chapter_id>/<int:question_id>', views.question, name='question'),
+    path('chapters/<int:chapter_id>/<int:question_id>/', views.question, name='question'),
     # Page for adding a new question and an answer
-    path('chapters/<int:chapter_id>/new_question', views.new_question, name='new_question'),
+    path('chapters/<int:chapter_id>/new_question/', views.new_question, name='new_question'),
     # Page for editing a question and an answer
-    path('edit_question/<int:question_id>', views.edit_question, name='edit_question'),
+    path('edit_question/<int:question_id>/', views.edit_question, name='edit_question'),
     # Deleter a quesiton and an answer
-    path('delete_question/<int:question_id>', views.delete_question, name='delete_question'),
+    path('delete_question/<int:question_id>/', views.delete_question, name='delete_question'),
 
     # Submit Answer
-    path('chapters/<int:chapter_id>/<int:question_id>', views.submit_answer, name='submit_answer'),
+    path('chapters/<int:chapter_id>/<int:question_id>/submit', views.submit_answer, name='submit_answer'),
+    # Page for Feedback
+    path('feedback/<int:user_answer_id>/', views.show_feedback, name='feedback')
 ]

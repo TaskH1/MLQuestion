@@ -1,0 +1,15 @@
+{% extends 'ml_question/base2.html' %}
+
+{% block content %}
+    <h3>Your Submitted</h3>
+        <p>{{ user_answer.submitted_answer|linebreaksbr }}</p>
+
+        <h4>Correct Answer:</h4>
+        <p>{{ correct_answer.answer_text }}</p>
+
+        <h4>Feedback</h4>
+        <p>{{ user_answer.is_correct }}</p>
+        <p>{{ user_answer.feedback }}</p>
+
+    
+{% endblock content %}

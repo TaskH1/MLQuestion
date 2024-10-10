@@ -1,6 +1,7 @@
 from django import forms
 
 from .models import Chapter, Question, Answer
+from accounts.models import UserAnswer
 
 class ChapterForm(forms.ModelForm):
     class Meta:
@@ -22,4 +23,13 @@ class AnswerForm(forms.ModelForm):
         model = Answer
         fields = ['answer_text']
         labels = {'answer_text': 'Answer'}
+
+
+class UserAnswerForm(forms.ModelForm):
+    class Meta:
+        model = UserAnswer
+        fields = ['submitted_answer']
+        labels = {
+            'submitted_answer': 'Submitted Answer'
+        }
         

@@ -15,10 +15,13 @@ def evaluate_answer_with_llm(submitted_answer, correct_answer):
 
     
     # Call the OpenAI API to get the evaluation
-    response = openai.Completion.create(
+    response = openai.ChatCompletion.create(
         # specify the language model
-        engine="text-davinci-003",
-        prompt=prompt,
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are an evaluator that provides feedback on answers."},
+            {"role": "user", "content": prompt}
+        ],
         # 1 token roughly corresponds to 0.75 words in English
         max_tokens=500,
         # controls the randomness of the model's output, determining how creative the model should be.
@@ -26,9 +29,9 @@ def evaluate_answer_with_llm(submitted_answer, correct_answer):
     )
 
     # Extract the feedback from the response
-    feedback = response.choices[0].text.strip()
+    feedback = response.choices[0]['message']['content'].strip()
 
-   # Determin correctness based on the feedback
-   is_correct = "correct" in feedback.lower() and "not correct" not in feedback.lower()
+    # Determin correctness based on the feedback
+    is_correct = "correct" in feedback.lower() and "not correct" not in feedback.lower()
 
-   return is_correct, feedback
+    return is_correct, feedback
