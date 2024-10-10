@@ -146,7 +146,7 @@ def delete_question(request, question_id):
 def submit_answer(request, chapter_id, question_id):
     if request.method == 'POST':
         print("POST request received.")
-        user_answer = request.POST.get('user_answer')
+        user_answer = request.POST.get('submitted_answer')
 
         # Get the related chapter and question
         chapter = get_object_or_404(Chapter, id=chapter_id)
@@ -177,6 +177,7 @@ def show_feedback(request, user_answer_id):
         'user_answer': user_answer,
         'question': question,
         'correct_answer': correct_answer,
+        'chapter': question.chapter
     }
 
     return render(request, 'ml_question/feedback.html', context)
