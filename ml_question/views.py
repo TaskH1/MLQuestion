@@ -5,7 +5,8 @@ from django.http import HttpResponse
 from .models import Chapter, Question, Answer
 from .forms import ChapterForm, QuestionForm, AnswerForm, UserAnswerForm
 from accounts.models import UserAnswer
-from accounts.utils import evaluate_answer_with_llm
+from accounts.utils import evaluate_answer_with_bert
+from .utils import format_answer_text
 
 # Create your views here.
 
@@ -154,7 +155,7 @@ def submit_answer(request, chapter_id, question_id):
 
         # Evaluate the user's answer using the LLM
         correct_answer = question.answer
-        is_correct, feedback = evaluate_answer_with_llm(user_answer, correct_answer.answer_text)
+        is_correct, feedback = evaluate_answer_with_bert(user_answer, correct_answer.answer_text)
 
         # Save the user's answer to the database
         user_answer_obj = UserAnswer.objects.create(
@@ -172,11 +173,13 @@ def show_feedback(request, user_answer_id):
     user_answer = get_object_or_404(UserAnswer, id=user_answer_id)
     question = user_answer.question
     correct_answer = question.answer
+    formatted_answer_text = format_answer_text(correct_answer.answer_text)
 
     context = {
         'user_answer': user_answer,
         'question': question,
         'correct_answer': correct_answer,
+        'formatted_answer_text': formatted_answer_text,
         'chapter': question.chapter
     }
 

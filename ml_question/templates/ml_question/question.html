@@ -7,10 +7,6 @@
         {{ user_answer_form.as_div }}
         <button type="submit">Yes</button>
     </form> 
-
-    <p>Chapter ID: {{ chapter.id }}</p>
-    <p>Question ID: {{ question.id }}</p>
-    <p>Form action: {% url 'ml_question:submit_answer' chapter.id question.id %}</p>
     
 
     <a href="{% url 'ml_question:edit_question' question.id %}">Edit</a>

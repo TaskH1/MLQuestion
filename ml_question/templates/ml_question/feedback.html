@@ -1,15 +1,25 @@
 {% extends 'ml_question/base2.html' %}
 
 {% block content %}
-    <h3>Your Submitted</h3>
+    <div class="evaluation-section">
+        <h2>Question:</h2>
+        <p>{{ question.question_text }}</p>
+
+        <h3>Your Submitted</h3>
         <p>{{ user_answer.submitted_answer|linebreaksbr }}</p>
 
         <h4>Correct Answer:</h4>
-        <p>{{ correct_answer.answer_text }}</p>
+        <p>{{ formatted_answer_text|safe }}</p>
 
         <h4>Feedback</h4>
         <p>{{ user_answer.is_correct }}</p>
         <p>{{ user_answer.feedback }}</p>
+    </div>
+    
+    
+    <h4>
+        <a href="{% url 'ml_question:question' chapter.id question.id %}">Try Again</a>
+    </h4>
 
     
 {% endblock content %}
