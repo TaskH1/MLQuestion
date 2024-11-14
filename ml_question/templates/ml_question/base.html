@@ -1,24 +1,58 @@
 <!--Contains elements common to all pages-->
-<p>
-    <!--template tag-->
-    <a href="{% url 'ml_question:index' %}">ML Question</a> -
-    <a href="{% url 'ml_question:chapters' %}">Chapters</a> - 
-    {% if user.is_authenticated %}
-        Hello, {{ user.username }}.
-    {% else %}
-        <a href="{% url 'accounts:register' %}">Register</a>-
-        <a href="{% url 'accounts:login' %}">Log in</a>
-    {% endif %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Evaluation</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'ml_question/styles.css' %}">
+    <style>
+        .evaluation-section {
+            margin: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
 
-    {% if user.is_authenticated %}
+        .evaluation-section h3, .evaluation-section h4 {
+            color: #333;
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+
+        .evaluation-section p {
+            margin: 5px 0;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <p>
+        {% if user.is_authenticated %}
+            Hello, {{ user.username }}.
+            <form action="{% url 'accounts:logout' %}" method="post">
+                {% csrf_token %}
+                <button name="submit">Log out</button>
+            </form>
+        {% else %}
+            <a href="{% url 'accounts:register' %}">Register</a>-
+            <a href="{% url 'accounts:login' %}">Log in</a>
+        {% endif %}
         <hr />
-        <form action="{% url 'accounts:logout' %}" method="post">
-            {% csrf_token %}
-            <button name="submit">Log out</button>
-        </form>
-    {% endif %}
-</p>
+        <!--template tag-->
+        <a href="{% url 'ml_question:index' %}">ML Question</a> -
+        <a href="{% url 'ml_question:chapters' %}">Chapters</a> 
+        {% if chapter %}
+            <a href="{% url 'ml_question:chapter' chapter.id %}"> - Question</a>
+        {% endif %}
+    </p>
+    {% block content %}
+    {% endblock content %}
+</body>
+</html>
+
 
 <!--block tags-->
-{% block content %}{% endblock content %}
-
